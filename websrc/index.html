@@ -24,33 +24,52 @@
 
 
   <!-- CSS : implied media="all" -->
+  <link rel="stylesheet" href="/css/1140.css?v=1">
   <link rel="stylesheet" href="css/style.css?v=2">
 
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <script src="js/libs/modernizr-1.7.min.js"></script>
-
+  <script src="//ajax.cdnjs.com/ajax/libs/headjs/0.9/head.min.js"></script>
+  
 </head>
 
 <body lang="en" >
 
-  <div id="container">
-    <header>
-      <h3>Pyaste - Python Pastebin</h3>
+  <div id="container" class="container">
+
+    <header class="row">
+      <div class="threecol">
+	
+      </div>
+      <div class="ninecol last">
+	<h3>Pyaste - Python Pastebin</h3>
+      </div>
     </header>
     <div id="main" role="main">
-      <form action="/new"  method="post">
-	<textarea name="text"></textarea>
-	Language: <input type="text" name="lang" />
-	<input type="submit" />
-    </form>
+      <div class="row">
+      <section id="aboutus" class="twelvecol"
+      <section id="new-paste" class="ninecol">
+	<form action="/new"  method="post">
+	  <textarea name="text"  rows=30 cols=90></textarea><br />
+	  <div>Language: <input type="text" name="lang" /></div>
+	  <input type="submit" name="create" />
+
+	</form>
+      </section>
+      </div>
+      <section class="hidden row" id="result">
+	
+      </section>
     </div>
-    <footer>
+    <footer class="row">
+      <div class="ninecol">
       This ultra-simple pastebin is brought to you by <a href="http://skyoix.com/">Skyoix</a>
       &copy; Skyoix 2010.
       Authors: <a href="http://william.hogman.me/">William Hogman</a> &lt;w@hogman.me&gt;
+      </div>
+      <img class="threecol last" src="/img/skyoix.png"/>
     </footer>
   </div> <!--! end of #container -->
 
@@ -73,6 +92,18 @@
     <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
 
+  <script>
+    $(function(){
+    var res = $("#result");
+    $("#new-paste").submit(function(){
+     $.post("http://pb.hogman.me/",$(this).serialize(),function(status,res){
+       res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>');
+     });
+    return false;
+    });
+
+    });
+  </script>
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>
@@ -81,6 +112,5 @@
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
-  
 </body>
 </html>

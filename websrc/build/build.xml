@@ -614,7 +614,6 @@
 
 	<target name="-serverconfig" description="(PRIVATE) Upgrades expires headers">
 		<echo message="Upgrading expires header timeouts for js/css"/>
-		<replace file="./${dir.publish}/${file.serverconfig}" token="access plus 2 months" value="access plus 1 year"/>
 	</target>
 
 	
@@ -626,7 +625,7 @@
 			<filelist dir="./${dir.publish}/${dir.css}" files="${stylesheet-files}"/>
 		</concat>
 		<apply executable="php" parallel="false">
-			<fileset dir="./${dir.publish}/${dir.css}/" includes="style-${build.number}.css"/>
+			<fileset dir="${dir.publish}/web/${dir.css}/" includes="style-${build.number}.css"/>
 			<arg line="-f"/>
 			<arg path="./${dir.build.tools}/${tool.csscompressor}"/>
 			<srcfile/>

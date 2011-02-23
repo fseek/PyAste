@@ -9,7 +9,6 @@ import re,string
 from hashlib import sha256
 
 alphaNum = re.compile('[\W_]+')
-
 def onlyAlphaNum(string):
     return alphaNum.sub('',string)
 
@@ -20,8 +19,6 @@ baseHash = sha256()
 baseHash.update(salt)
 
     
-
-
 @route('/new',method="POST")
 def newPaste():
     text = request.POST.get('text')
@@ -54,6 +51,8 @@ def newPaste():
     f.write("""</code></div><script type="text/javascrpt">head.js("http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js","chili.js","m.js",function(){renderPaste();})</script></body></html>""")
     f.close()
     return name
+
+
 
 
 if not os.path.exists("pastes"):
