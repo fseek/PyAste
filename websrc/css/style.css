@@ -148,10 +148,14 @@ button {  width: auto; overflow: visible; }
  * You might tweak these..
  */
 
+
+
+
 body, select, input, textarea {
   /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
   color: #444;
   /* Set your base font here, to apply evenly */
+   font-family: 'Droid Sans', arial, serif;
   /* font-family: Georgia, serif;  */
 }
 
@@ -169,6 +173,64 @@ a:hover { color: #036; }
  */
 
 
+body
+{
+   background: #333;
+}
+
+#container
+{
+   
+}
+
+
+#header-main
+{
+   padding: 20px 0 0 0;
+   height: 65px;
+   color: #FFF;
+   font-family: 'Kreon', arial, serif;
+   font-size: 40px;
+}
+
+#main
+{
+   background: #EEE;
+}
+
+#new-paste
+{
+   padding: 20px;
+}
+
+#new-paste .langsel select
+{
+   margin-left: 15px;
+}
+
+
+#main-footer
+{
+   background: #333;
+   margin-top: 25px;
+   color: #CDCDCD;
+}
+
+#main-footer .primary
+{
+   font-weight: bold;
+   margin-bottom: 15px;
+}
+
+#main-footer .authors
+{
+   margin-bottom: 15px;
+}
+
+#main-footer .thanks p
+{
+   margin-bottom: 5px;
+}
 
 
 

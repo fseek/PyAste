@@ -26,6 +26,9 @@
   <!-- CSS : implied media="all" -->
   <link rel="stylesheet" href="/css/1140.css?v=1">
   <link rel="stylesheet" href="css/style.css?v=2">
+  <!-- Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Kreon' rel='stylesheet' type='text/css'>
 
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
@@ -39,9 +42,10 @@
 
   <div id="container" class="container">
 
-    <header class="row">
-      <div class="threecol">
-	
+    <header class="row" id="header-main">
+      <div class="onecol">
+	<img src="/images/edit-paste.svg" width=42 height=42 />
+
       </div>
       <div class="ninecol last">
 	<h3>Pyaste - Python Pastebin</h3>
@@ -55,8 +59,24 @@
 	    <div id="edit-paste" style="width: 900px;height: 300px">Pasting time!</div>
 	  </div>
 	  <div class="clear"></div>
-	  <div>Language: <input type="text" name="lang" /></div>
-	  <input type="submit" name="create" />
+	  <div class="langsel">
+	    Language
+	    <select id="lang" name="lang">
+	      <option value="python">Python</option>
+	      <option value="html">HTML</option>
+	      <option value="css">CSS</option>
+	      <option value="xml">XML</option>
+	      <option value="php">PHP</option>
+	      <option value="java">Java</option>
+	      <option value="ruby">Ruby</option>
+	      <option value="c_cpp">C and C++</option>
+	      <option value="coffee">CoffeeScript</option>
+	      <option value="textile">Textile</option>
+	      <option value="perl">Perl</option>
+	      <option value="text">Plaintext</option>
+	    </select>
+	  </div>
+	  <input type="submit" name="create"  />
 
 	</form>
       </section>
@@ -65,15 +85,44 @@
 	
       </section>
     </div>
-    <footer class="row">
+    <footer id="main-footer" class="row">
       <div class="fourcol">
 	<a href="http://www.w3.org/html/logo/">
 	  <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-graphics-multimedia-performance-semantics-storage.png" width="325" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" title="HTML5 Powered with CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage">
+	</a>
       </div>
       <div class="fivecol">
-      This ultra-simple pastebin is brought to you by <a href="http://skyoix.com/">Skyoix</a>
-      &copy; Skyoix 2010.
-      Authors: <a href="http://william.hogman.me/">William Hogman</a> &lt;w@hogman.me&gt;
+	<div class="primary">
+	  <p>This ultra-simple pastebin is brought to you by <a href="http://skyoix.com/">Skyoix</a></p>
+	  <p>&copy; Skyoix 2010.</p>
+	</div>
+	<div class="authors">
+	  <h3>Authors</h3>
+	  <ul><li><a href="http://william.hogman.me/">William Hogman</a> &lt;w@hogman.me&gt;</li></ul>
+	</div>
+	<div class="thanks">
+	  <h3>Acknowledgements</h3>
+	  <p>
+	    We use both Google's CDN and cdnjs.com for hosting JavaScript libraries, a big thanks to them for making
+	    this site faster. We use jQuery as our primary JavaScript library and head.js for loading all the 
+	    scripts.
+	  </p>
+	  <p>
+	    The editing component is <a href="http://ace.ajax.org/">Ace</a> by the folks at Ajax.org
+	  </p>
+	  <p>
+	    This site uses the Kreon font by Julia Petretta, and the Droid Sans font by Steve Matteson.
+	    The fonts are all from the Google web fonts directory and hosted at Google's servers.
+	  </p>
+	  <p>
+	    We use SVGs from the Tango project.
+	  </p>
+	  <p>
+	    The back-end is using the Bottle web framework for python.
+	  </p>
+	  
+
+	</div>
       </div>
       <img class="threecol last" src="/img/skyoix.png"/>
     </footer>
@@ -100,12 +149,26 @@
 
   <script>
     var editor;
-    head.js("/js/libs/ace/src/ace.js","/js/libs/ace/src/theme-twilight.js","/js/libs/ace/src/mode-javascript.js",function(){
+    var modes = {};
+    head.js("/js/libs/ace/src/ace.js","/js/libs/ace/src/theme-twilight.js",function(){
     $(function(){
     editor= ace.edit("edit-paste");
     editor.setTheme("ace/theme/twilight");
-    var JavaScriptMode = require("ace/mode/javascript").Mode;
-    editor.getSession().setMode(new JavaScriptMode());
+
+      $("#lang").change(function(){
+       var selected = $(this).val();
+       if(modes[selected])
+       {
+        var m = require("ace/mode/"+selected).Mode;
+        editor.getSession().setMode(new m());
+       }
+       head.js("/js/libs/ace/src/mode-"+selected+".js",function(){
+        var m = require("ace/mode/"+selected).Mode;
+        editor.getSession().setMode(new m());
+        modes[selected] =true;
+       });
+      });
+    
     });
     });
     head.js("/js/smartbox.js",function(){
@@ -122,7 +185,7 @@
     var res = $("#result");
     $("#new-paste").submit(function(){
      $.post("http://pb.hogman.me/",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(status,res){
-       res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>');
+       res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>').removeClass("hidden");
      });
     return false;
     });
