@@ -49,10 +49,12 @@
     </header>
     <div id="main" role="main">
       <div class="row">
-      <section id="aboutus" class="twelvecol"
-      <section id="new-paste" class="ninecol">
+      <section id="new-paste" class="twelvecol">
 	<form action="/new"  method="post">
-	  <textarea name="text"  rows=30 cols=90></textarea><br />
+	  <div class="twelvecol" style="height: 310px;">
+	    <div id="edit-paste" style="width: 900px;height: 300px">Pasting time!</div>
+	  </div>
+	  <div class="clear"></div>
 	  <div>Language: <input type="text" name="lang" /></div>
 	  <input type="submit" name="create" />
 
@@ -64,7 +66,11 @@
       </section>
     </div>
     <footer class="row">
-      <div class="ninecol">
+      <div class="fourcol">
+	<a href="http://www.w3.org/html/logo/">
+	  <img src="http://www.w3.org/html/logo/badge/html5-badge-h-css3-device-graphics-multimedia-performance-semantics-storage.png" width="325" height="64" alt="HTML5 Powered with CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage" title="HTML5 Powered with CSS3 / Styling, Device Access, Graphics, 3D &amp; Effects, Multimedia, Performance &amp; Integration, Semantics, and Offline &amp; Storage">
+      </div>
+      <div class="fivecol">
       This ultra-simple pastebin is brought to you by <a href="http://skyoix.com/">Skyoix</a>
       &copy; Skyoix 2010.
       Authors: <a href="http://william.hogman.me/">William Hogman</a> &lt;w@hogman.me&gt;
@@ -93,14 +99,35 @@
   <![endif]-->
 
   <script>
+    var editor;
+    head.js("/js/libs/ace/src/ace.js","/js/libs/ace/src/theme-twilight.js","/js/libs/ace/src/mode-javascript.js",function(){
+    $(function(){
+    editor= ace.edit("edit-paste");
+    editor.setTheme("ace/theme/twilight");
+    var JavaScriptMode = require("ace/mode/javascript").Mode;
+    editor.getSession().setMode(new JavaScriptMode());
+    });
+    });
+    head.js("/js/smartbox.js",function(){
+
+    $(function(){
+    
+     //smartbox.attachTo($("new-paste textarea"));
+     //$("#new-paste textarea").keyup(smartbox);
+    });
+       
+
+    });
     $(function(){
     var res = $("#result");
     $("#new-paste").submit(function(){
-     $.post("http://pb.hogman.me/",$(this).serialize(),function(status,res){
+     $.post("http://pb.hogman.me/",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(status,res){
        res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>');
      });
     return false;
     });
+
+
 
     });
   </script>
