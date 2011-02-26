@@ -25,7 +25,7 @@
 
   <!-- CSS : implied media="all" -->
   <link rel="stylesheet" href="/css/1140.css?v=1">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="/css/style.css?v=2">
   <!-- Fonts -->
   <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Kreon' rel='stylesheet' type='text/css'>
@@ -120,11 +120,23 @@
 	  <p>
 	    The back-end is using the Bottle web framework for python.
 	  </p>
-	  
-
 	</div>
       </div>
-      <img class="threecol last" src="/img/skyoix.png"/>
+      <div id="legal" class="threecol last" >
+	<p>
+	  Users are responsible for their own pastes, we save ip addresses for a short duration of time
+	  but we also provide a TOR hidden service, which makes it near imposible to actually track anyone.
+	</p>
+	<p>
+	  If you find something that you feel you shouldn't be here feel free to contact me, but don't send DMCA
+	  take-down notices since they don't apply in my jurisdiction. Look instead at the European copyright law
+	  and send me a letter.
+	</p>
+	<p>
+	  Keep in mind though that URLs linking to a resource isn't the same thing as hosting the files it points
+	  to. However the paste is just a bunch of URLs to warez will be removed them if you ask nicely.
+	</p>
+      </div>
     </footer>
   </div> <!--! end of #container -->
 
@@ -184,7 +196,7 @@
     $(function(){
     var res = $("#result");
     $("#new-paste").submit(function(){
-     $.post("http://pb.hogman.me/",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(status,res){
+     $.post("/new",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(status,res){
        res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>').removeClass("hidden");
      });
     return false;

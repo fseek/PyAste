@@ -1,5 +1,7 @@
 #!/bin/env python2
-from bottle import route, run,debug,request,response
+from bottle import route, run,debug,request,response,static_file
+from mako.template import Template
+from mako.lookup import TemplateLookup
 import os
 
 import base64
@@ -44,20 +46,32 @@ def newPaste():
     f.write(text)
     f.close()
 
-
+    out = templates.get_template("view-paste.tpl").render(code=text,lang=lang)
     f = open(fileName+".html",'w')
-    f.write("""<!DOCTYPE html><html><head><title>Viewing Paste</title><script src="/head.js"></script><body><div class="src highlight-{0}"><code>""".format(lang))
-    f.write(cgi.escape(text))
-    f.write("""</code></div><script type="text/javascrpt">head.js("http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js","chili.js","m.js",function(){renderPaste();})</script></body></html>""")
+    f.write(out)
     f.close()
     return name
 
 
+@route('/')
+def serveIndex():
+    return static_file("index.html",root="web/")
 
+@route('/:path#.+#')
+def serveStaticWeb(path):
+    return static_file(path,root="web/")
+
+
+
+if not os.path.exists("mako-cache"):
+    os.makedirs("mako-cache")
 
 if not os.path.exists("pastes"):
     os.makedirs("pastes")
     os.chmod("pastes",766)
+
+
+templates = TemplateLookup(directories=['templates'],module_directory='mako-cache')
 
 
 debug(True)
