@@ -15,6 +15,6 @@
   });
 </script>
 </%def>
-<div id="view-paste">
+<div id="view-paste" style="height:300px">
   ${code | h}
 </div>
