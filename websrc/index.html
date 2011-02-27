@@ -158,7 +158,7 @@
     <script src="js/libs/dd_belatedpng.js"></script>
     <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
-
+  
   <script>
     var editor;
     var modes = {};
@@ -194,10 +194,9 @@
 
     });
     $(function(){
-    var res = $("#result");
     $("#new-paste").submit(function(){
-     $.post("/new",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(status,res){
-       res.html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>').removeClass("hidden");
+     $.post("/new",{lang: $("#new-paste input[type=text]").val(),'text':editor.getSession().getValue()},function(res,status){
+       $("#result").html('<a href="http://pb.hogman.me/'+res+'.html">http://pb.hogman.me/'+res+'.html</a>').removeClass("hidden");
      });
     return false;
     });
@@ -214,5 +213,6 @@
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
+
 </body>
 </html>
