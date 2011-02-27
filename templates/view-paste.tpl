@@ -10,7 +10,7 @@
       head.js("/js/libs/ace/src/mode-${lang}.js",function(){
         var m = require("/ace/mode/${lang}").Mode;
         editor.getSession().setMode(new m());
-      )};
+      });
     });
   });
 </script>
