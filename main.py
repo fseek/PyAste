@@ -22,10 +22,6 @@ baseHash.update(salt)
 
     
 @route('/new',method="POST")
-
-if text == '' or text == 'Pasting time!':
-	return
-
 def newPaste():
     text = request.POST.get('text')
     lang = onlyAlphaNum(request.POST.get('lang','raw'))
